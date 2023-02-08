@@ -7,6 +7,7 @@ class App {
         this.server = express()
         this.middlewares()
         this.routes()
+        this.ejs()
     }
 
     middlewares(){
@@ -15,7 +16,11 @@ class App {
 
     routes() {
         this.server.use(routes)
-    }   
+    }
+
+    ejs(){
+        this.server.set('view engine', 'ejs')
+    }
 }
 
 module.exports = new App().server
