@@ -6,11 +6,11 @@ const CustomerController = require("./app/controllers/CustomerController")
 const Auth = require("./app/middlewares/Auth")
 
 //SESSIONS
-routes.get("/", SessionController.home)
-routes.get("/users", SessionController.usersList)
+routes.get("/", SessionController.ViewHome)
+routes.get("/users", SessionController.ViewUsers)
 routes.post("/login", SessionController.login)
-routes.get("/register", SessionController.register)
-routes.get("/customers", SessionController.customers)
+routes.get("/register", SessionController.ViewRegister)
+routes.get("/customers", SessionController.ViewCustomers)
 
 
 //User

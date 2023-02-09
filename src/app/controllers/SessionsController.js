@@ -5,11 +5,11 @@ const User = require("../models/User")
 
 class SessionController {
 
-    async usersList (req, res){
+    async ViewUsers (req, res){
         res.render("users")
     }
 
-    async home (req, res){
+    async ViewHome (req, res){
         res.render("home")
     }
 
@@ -38,12 +38,16 @@ class SessionController {
         }
     }
 
-    async register (req, res){
+    async ViewRegister (req, res){
         res.render("register")
     }
 
-    async customers (req, res){
+    async ViewCustomers (req, res){
         res.render("customers")
+    }
+
+    async ViewCreateCustomer(req, res){
+        res.render("createCustomer")
     }
 }
 
