@@ -31,41 +31,30 @@
             <div class="card-body">
                 <ul id="customersList"></ul>
             </div>
-            <!-- <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th>Sobrenome</th>
-                        <th>Sexo</th>
-                        <th>Data de nascimento</th>
-                        <th>Nacionalidade</th>
-                        <th>Email</th>
-                        <th>Endereço</th>
-                        <th>Cidade</th>
-                        <th>Estado</th>
-                        <th>Telefone</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-
-                </tbody>
-            </table>   -->
         </div>
         <div id="editCustomers" class="card mt-2" style="display: none;">
             <div class="card-body" >
                     <h3>Editar Cliente</h3>
                     <input type="text" class="form-control" name="idEdit" id="idEdit" readonly><br>
+                    <label for="nameEdit">Nome:</label>
                     <input type="text" class="form-control" name="nameEdit" id="nameEdit"><br>
+                    <label for="lastNameEdit">Sobrenome:</label>
                     <input type="text" class="form-control" name="lastNameEdit" id="lastNameEdit"><br>
+                    <label for="genderEdit">Sexo:</label>
                     <input type="text" class="form-control" name="genderEdit" id="genderEdit"><br>
+                    <label for="birthdayEdit">Data de aniversario:</label>
                     <input type="text" class="form-control" name="birthdayEdit" id="birthdayEdit"><br>
+                    <label for="nationalityEdit">Nacionalidade:</label>
                     <input type="text" class="form-control" name="nationalityEdit" id="nationalityEdit"><br>
+                    <label for="emailEdit">Email:</label>
                     <input type="email" class="form-control" name="emailEdit" id="emailEdit"><br>
+                    <label for="addressEdit">Endereço:</label>
                     <input type="text" class="form-control" name="addressEdit" id="addressEdit"><br>
+                    <label for="cityEdit">Cidade:</label>
                     <input type="text" class="form-control" name="cityEdit" id="cityEdit"><br>
+                    <label for="stateEdit">Estado:</label>
                     <input type="text" class="form-control" name="stateEdit" id="stateEdit"><br>
+                    <label for="phoneEdit">Telefone:</label>
                     <input type="number" class="form-control" name="phoneEdit" id="phoneEdit"><br>
                     <button id="BtnEditCustomer" class="btn btn-success">Editar</button>
             </div>
@@ -156,7 +145,7 @@ function editCustomer(listItem){
     document.getElementById("phoneEdit").value = phone
 }
 
-function updateUser(){
+function updateCustomer(){
     const nameEdit = document.getElementById("nameEdit")
     const lastNameEdit = document.getElementById("lastNameEdit")
     const genderEdit = document.getElementById("genderEdit")
@@ -170,7 +159,7 @@ function updateUser(){
 
     const updateCustomer = {
         name: nameEdit.value, 
-        last_name: lastName,
+        last_name: lastNameEdit.value,
         gender: genderEdit.value,
         birthday: birthdayEdit.value,
         nationality: nationalityEdit.value,
@@ -183,13 +172,18 @@ function updateUser(){
 
     const id = document.getElementById("idEdit").value
 
-    axios.put("http://localhost:3000/customer/" + id, updateUser, {headers: {'authorization': localStorage.getItem('token') }}).then(response => {
+    axios.put("http://localhost:3000/customer/" + id, updateCustomer, {headers: {'authorization': localStorage.getItem('token') }}).then(response => {
         if(response.status == 200){
             alert("Cliente Alterado!")
             location.reload()
         }
     }).catch((error) => {
-        alert("Para deletar ou editar um usuario é necessario antes fazer login.")
+        if(error.response.status == 400){
+            alert("Informações incorretas")
+        }else{
+            alert("Para deletar ou editar um usuario é necessario antes fazer login.")
+            location.href = "http://localhost:3000/"
+        }
         console.log(error)
     })
 }
@@ -204,7 +198,7 @@ function deleteUser(itemList){
     })
 }
 
-//document.querySelector("#BtnEditUser").addEventListener('click', updateUser)
+document.querySelector("#BtnEditCustomer").addEventListener('click', updateCustomer)
 
 </script>
 </html>

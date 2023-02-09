@@ -20,8 +20,8 @@ routes.put("/user/:id", Auth, UserController.update)
 routes.delete("/user/:id", Auth ,UserController.destroy)
 
 //Customer
-routes.post("/customer", CustomerController.craete)
+routes.post("/customer", CustomerController.create)
 routes.get("/customer", CustomerController.index)
-routes.put("/customer/:id", CustomerController.update)
+routes.put("/customer/:id", Auth, CustomerController.update)
 
 module.exports = routes

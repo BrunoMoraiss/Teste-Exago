@@ -12,7 +12,7 @@ class CustomerController{
         res.json({customers})
     }
 
-    async craete (req, res){
+    async create (req, res){
         const { name, lastName, gender, birthday, nationality, email, address, city, state, phone } = req.body //Recebendo dados
 
         const schema = yup.object().shape({ //Lib utilizada para fazer a validação das informações
@@ -53,7 +53,38 @@ class CustomerController{
     }
 
     async update (req, res){
-        
+        const id = req.params.id
+
+        const {name, last_name, gender, birthday, nationality, email, address, city, state, phone} = req.body //Recebendo dados
+
+        const schema = yup.object().shape({ //Lib utilizada para fazer a validação das informações
+            name: yup.string().required().min(1),
+            last_name: yup.string().required().min(1),
+            birthday: yup.string().required().min(1),
+            nationality: yup.string().required().min(1),
+            email: yup.string().email().required().min(1),
+            address: yup.string().required().min(1),
+            city: yup.string().required().min(1),
+            state: yup.string().required().min(1),
+            phone: yup.number().required().min(1)
+        })
+
+        const customer = {name, last_name, gender, birthday, nationality, email, address, city, state, phone} //Variavel para facilitar a validação das informações
+
+        const verifyInfo = await schema.isValid(customer) //Essa verificação irá retornar verdadeiro ou falso
+
+        if(verifyInfo){ //Caso a verificação seja verdadeira
+
+            await Customer.update(customer, {
+                where: {
+                    id
+                }
+            })
+
+            return res.status(200).json({msg: "Informações passadas corretamente"})
+        }else{ //Caso a verificação seja falso
+            return res.status(400).json({err: "Informações incorretas"}) //Caso a validação retorne falso, ou seja, existe algum erro na validação.
+        }
     }
 
     async destroy (req, res){
