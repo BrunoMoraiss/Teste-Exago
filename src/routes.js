@@ -8,6 +8,7 @@ const Auth = require("./app/middlewares/Auth")
 routes.get("/", SessionController.home)
 routes.get("/users", SessionController.usersList)
 routes.post("/login", SessionController.login)
+routes.get("/register", SessionController.register)
 
 
 //User
