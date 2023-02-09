@@ -88,7 +88,17 @@ class CustomerController{
     }
 
     async destroy (req, res){
-        
+        const id = req.params.id //Id do usuario passado através da URL 
+
+        const customer = await Customer.findOne({ //Verificando se existe um usuario que corresponde ao ID passado
+            where:{
+                id
+            }
+        })
+
+        await customer.destroy() //Deletando customer no banco de dados
+
+        res.status(200).json({msg: "Cliente Deletado"})
     }
 }
 
