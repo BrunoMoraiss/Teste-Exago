@@ -1,11 +1,13 @@
 const { Router } = require("express");
 const routes = new Router()
 const SessionController = require("./app/controllers/SessionsController")
-const UserController = require("./app/controllers/UserController")
+const UserController = require("./app/controllers/UserController");
+const Auth = require("./app/middlewares/Auth")
 
 //SESSIONS
 routes.get("/", SessionController.home)
 routes.get("/users", SessionController.usersList)
+routes.post("/login", SessionController.login)
 
 
 //User
