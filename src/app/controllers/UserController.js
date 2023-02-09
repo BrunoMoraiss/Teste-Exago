@@ -5,13 +5,13 @@ const bcryt = require("bcrypt")
 class UserController {
 
     async index (req, res){
-        const users = await User.findAll({
+        const users = await User.findAll({ //Pesquisando no banco de dados todos os usuarios
             attributes: {
                 exclude: ['password', 'createdAt', 'updatedAt']
             }
         })
 
-        res.json({users})
+        res.json({users}) //Retornado via JSON todos os usuarios
     }
 
     async create (req, res){
@@ -39,13 +39,50 @@ class UserController {
     }
 
     async update (req, res){
+        const id = req.params.id //Id do usuario passado através da URL 
+        const { name, email, password } = req.body //Recebendo dados
 
+        let user = {} //variavel para facilitar a atualização de um usuario
+
+        const userVerification = await User.findOne({ //Verificando se existe um usuario que corresponde ao email passado
+            where: {
+                id
+            }
+        })
+
+        if(userVerification == undefined){ //Caso não exista nenhum usuario localizado com esse id
+            return res.status(404).json({err: "Usuario não está registrado"})
+        }
+
+        if(name == undefined && password == undefined && email == undefined){ //Caso não seja passado nenhuma informação para ser atualizada
+            return res.status(400).json({err: "Informações passadas não estão corretas"})
+        }
+
+        if(name != undefined){ //Verificando se a propriedade 'name' vinda da requisição é undefined
+            user.name = name //Caso não seja irei atribuir ao objeto user criado a cima
+        }
+
+        if(email != undefined){ //Verificando se a propriedade 'email' vinda da requisição é undefined
+            user.email = email //Caso não seja irei atribuir ao objeto user criado a cima
+        }
+
+        if(password != undefined){ //Verificando se a propriedade 'password' vinda da requisição é undefined
+            const hash = await bcryt.hash(password, 10) //Aplicando hash na senha recebida
+            user.password = hash //Caso não seja irei atribuir ao objeto user criado a cima
+        }
+
+        await User.update(user, { //passando o objeto de usar para atualizar no banco de dados.
+            where: {
+                id
+            }
+        })
+
+        res.status(200).json({msg: "Usuario Alterado com sucesso"})
     }
 
     async destroy (req, res){
 
     }
-
 
 }
 

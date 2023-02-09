@@ -10,5 +10,6 @@ routes.get("/login", SessionController.index)
 //User
 routes.post("/user", UserController.create)
 routes.get("/user", UserController.index)
+routes.put("/user/:id", UserController.update)
 
 module.exports = routes
