@@ -134,6 +134,8 @@ function deleteUser(itemList){
         alert("Usuario Deletado!")
         location.reload()
     }).catch((error) => {
+        alert("Para deletar ou editar um usuario é necessario antes fazer login.")
+        location.href = "http://localhost:3000/"
         console.log(error)
     })
 }

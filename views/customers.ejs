@@ -188,12 +188,14 @@ function updateCustomer(){
     })
 }
 
-function deleteUser(itemList){
+function deleteCustomer(itemList){
     const id = itemList.getAttribute("data-id")
-    axios.delete("http://localhost:3000/user/" + id, {headers: {'authorization': localStorage.getItem('token') }}).then(()=>{
+    axios.delete("http://localhost:3000/customer/" + id, {headers: {'authorization': localStorage.getItem('token') }}).then(()=>{
         alert("Usuario Deletado!")
         location.reload()
     }).catch((error) => {
+        alert("Para deletar ou editar um usuario é necessario antes fazer login.")
+        location.href = "http://localhost:3000/"
         console.log(error)
     })
 }
