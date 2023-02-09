@@ -1,7 +1,7 @@
 class SessionController {
 
     async index (req, res){
-        res.render("login")
+        res.render("users")
     }
 
 }

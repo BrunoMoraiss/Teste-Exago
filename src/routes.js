@@ -4,7 +4,7 @@ const SessionController = require("./app/controllers/SessionsController")
 const UserController = require("./app/controllers/UserController")
 
 //SESSIONS
-routes.get("/login", SessionController.index)
+routes.get("/users", SessionController.index)
 
 
 //User
