@@ -7,9 +7,11 @@
 - Sequelize - Utilizado para conexao e comunicação ao banco de dados.
 - SQL (Postgres) - Como banco de dados relacional.
 ## Dev-Dependencies
-- Nodemon - Utilizado para manter o servidor rodando mesmo após modificação no código.
+- Nodemon - Utilizado para manter o servidor rodando mesmo após modificações no código.
 ## ☕ Introdução ao projeto 
-- Rota principal do projeto é utilizada para fazer o login, caso não seja `registrado` somente clicar em registrar para criar um usuario.
+- Rota principal do projeto é utilizada para fazer o login, caso não seja `REGISTRADO` somente clicar em registrar para criar um usuario.
+
+![HomePage- Teste Exago](https://user-images.githubusercontent.com/99517505/217921454-cf0321aa-4376-4d41-89c5-df4af1a7a7b8.png)
 ## 💻 Pré-requisitos
 - Ter algum banco de dados relacional instalado.
 - Ter o node.js instalado.
@@ -25,6 +27,7 @@ module.exports = {
     dialect: "postgres, mysql ou SQLlite",
     host: "localhost",
     username: "username do seu banco de dados",
+
     password: "senha do seu banco de dados",
     database: "nome do seu database",
     define: {
@@ -42,7 +45,16 @@ npm install --save mysql2
 ```
 npm install --save sqlite3
 ```
-### Para rodar o projeto, utilizar os seguinte comando: 
+### Seguir os seguintes comandos para configurar o banco de dados com as migrations que já está no projeto. 
+- Comando para criar o database conforme o nome especificado nas configurações.
+```
+ npx sequelize db:create 
+```
+- Comando para rodar as migrations.
+```
+npx sequelize db:migrate 
+```
+### Para rodar o servidor, utilizar o seguinte comando: 
 ```
 npm run dev
 ```
