@@ -3,7 +3,13 @@ const yup = require("yup")
 
 class CustomerController{
     async index (req, res){
+        const customers = await Customer.findAll({ //Pesquisando no banco de dados todos os usuarios
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
 
+        res.json({customers})
     }
 
     async craete (req, res){

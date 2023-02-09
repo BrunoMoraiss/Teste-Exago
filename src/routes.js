@@ -10,6 +10,7 @@ routes.get("/", SessionController.home)
 routes.get("/users", SessionController.usersList)
 routes.post("/login", SessionController.login)
 routes.get("/register", SessionController.register)
+routes.get("/customers", SessionController.customers)
 
 
 //User
@@ -20,5 +21,7 @@ routes.delete("/user/:id", Auth ,UserController.destroy)
 
 //Customer
 routes.post("/customer", CustomerController.craete)
+routes.get("/customer", CustomerController.index)
+routes.put("/customer/:id", CustomerController.update)
 
 module.exports = routes

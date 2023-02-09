@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Clientes</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding: 15px;">
+        <a class="navbar-brand" href="/">
+            EXAGO
+        </a>
+    
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="/users" class="nav-link" id="users" style="background-color: transparent; border: none;">Usuarios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/customers">Clientes</a>
+            </li>
+        </ul>
+    </nav>
+<body>
+    <div class="container mt-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 style="text-align: center;">Lista de Clientes</h3>
+            </div>
+            <div class="card-body">
+                <ul id="customersList"></ul>
+            </div>
+            <!-- <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Sobrenome</th>
+                        <th>Sexo</th>
+                        <th>Data de nascimento</th>
+                        <th>Nacionalidade</th>
+                        <th>Email</th>
+                        <th>Endereço</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                        <th>Telefone</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>   -->
+        </div>
+        <div id="editCustomers" class="card mt-2" style="display: none;">
+            <div class="card-body" >
+                    <h3>Editar Cliente</h3>
+                    <input type="text" class="form-control" name="idEdit" id="idEdit" readonly><br>
+                    <input type="text" class="form-control" name="nameEdit" id="nameEdit"><br>
+                    <input type="text" class="form-control" name="lastNameEdit" id="lastNameEdit"><br>
+                    <input type="text" class="form-control" name="genderEdit" id="genderEdit"><br>
+                    <input type="text" class="form-control" name="birthdayEdit" id="birthdayEdit"><br>
+                    <input type="text" class="form-control" name="nationalityEdit" id="nationalityEdit"><br>
+                    <input type="email" class="form-control" name="emailEdit" id="emailEdit"><br>
+                    <input type="text" class="form-control" name="addressEdit" id="addressEdit"><br>
+                    <input type="text" class="form-control" name="cityEdit" id="cityEdit"><br>
+                    <input type="text" class="form-control" name="stateEdit" id="stateEdit"><br>
+                    <input type="number" class="form-control" name="phoneEdit" id="phoneEdit"><br>
+                    <button id="BtnEditCustomer" class="btn btn-success">Editar</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+axios.get("http://localhost:3000/customer").then(response => {
+    const customersList = document.querySelector("#customersList")
+    const customers = response.data.customers
+
+    console.log(customers)
+    
+    customers.forEach(customer => {
+        const item = document.createElement("li")
+
+        item.setAttribute("data-id", customer.id)
+        item.setAttribute("data-name", customer.name)
+        item.setAttribute("data-lastName", customer.last_name)
+        item.setAttribute("data-gender", customer.gender)
+        item.setAttribute("data-birthday", customer.birthday)
+        item.setAttribute("data-nationality", customer.nationality)
+        item.setAttribute("data-email", customer.email)
+        item.setAttribute("data-address", customer.address)
+        item.setAttribute("data-city", customer.city)
+        item.setAttribute("data-state", customer.state)
+        item.setAttribute("data-phone", customer.phone)
+
+        item.style.marginBottom = '5px'
+
+        item.innerText = `${customer.name} ${customer.last_name} - ${customer.gender} - ${customer.birthday} - ${customer.nationality} - ${customer.email} - ${customer.address} - ${customer.city} - ${customer.state} - ${customer.phone} `
+
+        const btnDelete = document.createElement("button")
+        btnDelete.innerText = "Deletar"
+        btnDelete.classList.add("btn", "btn-danger")
+        btnDelete.style.marginRight = "5px"
+        btnDelete.addEventListener("click", function(){
+            deleteCustomer(item)
+        })
+
+        const btnEdit = document.createElement("button")
+        btnEdit.innerText = "Editar"
+        btnEdit.classList.add("btn", "btn-warning")
+        btnEdit.addEventListener('click', function() {
+            editCustomer(item)
+        })
+
+        const hr = document.createElement("hr")
+
+        item.append(btnDelete, btnEdit)
+        customersList.append(item, hr)
+    });
+}).catch((error) =>{
+    console.log(error)
+})
+
+function editCustomer(listItem){
+    const editCustomers = document.getElementById("editCustomers")
+
+    if(editCustomers.style.display === 'none'){
+        editCustomers.style.display = 'block';
+    }
+
+    const id = listItem.getAttribute("data-id")
+    const name = listItem.getAttribute("data-name")
+    const lastName = listItem.getAttribute("data-lastName")
+    const gender = listItem.getAttribute("data-gender")
+    const birthday = listItem.getAttribute("data-birthday")
+    const nationality = listItem.getAttribute("data-nationality")
+    const email = listItem.getAttribute("data-email")
+    const address = listItem.getAttribute("data-address")
+    const city = listItem.getAttribute("data-city")
+    const state = listItem.getAttribute("data-state")
+    const phone = listItem.getAttribute("data-phone")
+
+    document.getElementById("idEdit").value = id
+    document.getElementById("nameEdit").value = name
+    document.getElementById("lastNameEdit").value = lastName
+    document.getElementById("genderEdit").value = gender
+    document.getElementById("birthdayEdit").value = birthday
+    document.getElementById("nationalityEdit").value = nationality
+    document.getElementById("emailEdit").value = email
+    document.getElementById("addressEdit").value = address
+    document.getElementById("cityEdit").value = city
+    document.getElementById("stateEdit").value = state
+    document.getElementById("phoneEdit").value = phone
+}
+
+function updateUser(){
+    const nameEdit = document.getElementById("nameEdit")
+    const lastNameEdit = document.getElementById("lastNameEdit")
+    const genderEdit = document.getElementById("genderEdit")
+    const birthdayEdit = document.getElementById("birthdayEdit")
+    const nationalityEdit = document.getElementById("nationalityEdit")
+    const emailEdit = document.getElementById("emailEdit")
+    const addressEdit = document.getElementById("addressEdit")
+    const cityEdit = document.getElementById("cityEdit")
+    const stateEdit = document.getElementById("stateEdit")
+    const phoneEdit = document.getElementById("phoneEdit")
+
+    const updateCustomer = {
+        name: nameEdit.value, 
+        last_name: lastName,
+        gender: genderEdit.value,
+        birthday: birthdayEdit.value,
+        nationality: nationalityEdit.value,
+        email: emailEdit.value,
+        address: addressEdit.value,
+        city: cityEdit.value,
+        state: stateEdit.value,
+        phone: phoneEdit.value
+    }
+
+    const id = document.getElementById("idEdit").value
+
+    axios.put("http://localhost:3000/customer/" + id, updateUser, {headers: {'authorization': localStorage.getItem('token') }}).then(response => {
+        if(response.status == 200){
+            alert("Cliente Alterado!")
+            location.reload()
+        }
+    }).catch((error) => {
+        alert("Para deletar ou editar um usuario é necessario antes fazer login.")
+        console.log(error)
+    })
+}
+
+function deleteUser(itemList){
+    const id = itemList.getAttribute("data-id")
+    axios.delete("http://localhost:3000/user/" + id, {headers: {'authorization': localStorage.getItem('token') }}).then(()=>{
+        alert("Usuario Deletado!")
+        location.reload()
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+//document.querySelector("#BtnEditUser").addEventListener('click', updateUser)
+
+</script>
+</html>

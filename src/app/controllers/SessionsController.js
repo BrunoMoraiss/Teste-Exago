@@ -41,6 +41,10 @@ class SessionController {
     async register (req, res){
         res.render("register")
     }
+
+    async customers (req, res){
+        res.render("customers")
+    }
 }
 
 module.exports = new SessionController()
