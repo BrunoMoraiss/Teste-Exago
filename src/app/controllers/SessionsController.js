@@ -1,7 +1,11 @@
 class SessionController {
 
-    async index (req, res){
+    async usersList (req, res){
         res.render("users")
+    }
+
+    async home (req, res){
+        res.render("home")
     }
 
 }
