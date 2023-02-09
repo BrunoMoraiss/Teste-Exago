@@ -5,7 +5,13 @@ const bcryt = require("bcrypt")
 class UserController {
 
     async index (req, res){
+        const users = await User.findAll({
+            attributes: {
+                exclude: ['password', 'createdAt', 'updatedAt']
+            }
+        })
 
+        res.json({users})
     }
 
     async create (req, res){
