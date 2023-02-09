@@ -72,6 +72,7 @@
         axios.post("http://localhost:3000/login", user).then(response => {
             localStorage.setItem('token', 'bearer ' + response.data.token)
             console.log(localStorage.getItem('token'))
+            alert("Usuario logado!")
         }).catch(err => {
             console.log(err)
             alert("Informações passadas são invalidas")

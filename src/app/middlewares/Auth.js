@@ -14,14 +14,14 @@ function AdminAuth (req, res, next){
             if(verifyToken){
                 next()
             }else{
-                res.send("erro")
+                res.status(406).json({err: "Token invalido"})
             }
             
         }catch(err){
-            return res.send("erroo")
+            return res.status(406).json({err: "Token invalido"})
         }    
     }else{
-        return res.send("errooo")
+        return res.status(406).json({err: "Token invalido"})
     }
 }
 

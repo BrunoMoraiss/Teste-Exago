@@ -8,6 +8,20 @@
     <title>Listagem de Usuarios</title>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding: 15px;">
+        <a class="navbar-brand" href="/">
+            EXAGO
+        </a>
+    
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="/users" class="nav-link" id="users" style="background-color: transparent; border: none;">Usuarios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/">Clientes</a>
+            </li>
+        </ul>
+    </nav>
     <div class="container mt-3">
         <div class="card">
             <div class="card-header">
@@ -15,6 +29,16 @@
             </div>
             <div class="card-body">
                 <ul id="usersList"></ul>
+            </div>
+        </div>
+        <div id="editUsers" class="card mt-2" style="display: none;">
+            <div class="card-body" >
+                    <h3>Editar Usuario</h3>
+                    <input type="text" class="form-control" name="idEdit" id="idEdit" readonly><br>
+                    <input type="text" class="form-control" name="nameEdit" id="nameEdit"><br>
+                    <input type="text" class="form-control" name="emailEdit" id="emailEdit"><br>
+                    <input type="text"  class="form-control" name="passwordEdit" id="passwordEdit" placeholder="Digite sua senha aqui, caso deseja alterar."><br>
+                    <button id="BtnEditUser" class="btn btn-success">Editar</button>
             </div>
         </div>
     </div>
@@ -33,8 +57,8 @@
         const item = document.createElement("li")
 
         item.setAttribute("data-id", user.id)
-        item.setAttribute("data-title", user.name)
-        item.setAttribute("data-year", user.email)
+        item.setAttribute("data-name", user.name)
+        item.setAttribute("data-email", user.email)
 
         item.style.marginBottom = '5px'
 
@@ -45,21 +69,77 @@
         btnDelete.classList.add("btn", "btn-danger")
         btnDelete.style.marginRight = "5px"
         btnDelete.addEventListener("click", function(){
-            deleteGame(item)
+            deleteUser(item)
         })
 
         const btnEdit = document.createElement("button")
         btnEdit.innerText = "Editar"
         btnEdit.classList.add("btn", "btn-warning")
         btnEdit.addEventListener('click', function() {
-            editGame(item)
+            editUser(item)
         })
 
+        const hr = document.createElement("hr")
+
         item.append(btnDelete, btnEdit)
-        usersList.appendChild(item)
+        usersList.append(item, hr)
     });
 }).catch((error) =>{
     console.log(error)
 })
+
+function editUser(listItem){
+    const editUsers = document.getElementById("editUsers")
+
+    if(editUsers.style.display === 'none'){
+        editUsers.style.display = 'block';
+    }
+
+    const id = listItem.getAttribute("data-id")
+    const name = listItem.getAttribute("data-name")
+    const email = listItem.getAttribute("data-email")
+
+    document.getElementById("idEdit").value = id
+    document.getElementById("nameEdit").value = name
+    document.getElementById("emailEdit").value = email
+}
+
+function updateUser(){
+    const nameEdit = document.getElementById("nameEdit")
+    const emailEdit = document.getElementById("emailEdit")
+    const passwordEdit = document.getElementById("passwordEdit")
+
+    const updateUser = {
+        name: nameEdit.value,
+        email: emailEdit.value,
+        password: passwordEdit.value
+    }
+
+    const id = document.getElementById("idEdit").value
+
+    axios.put("http://localhost:3000/user/" + id, updateUser, {headers: {'authorization': localStorage.getItem('token') }}).then(response => {
+        if(response.status == 200){
+            alert("Usuario Alterado!")
+            location.reload()
+        }
+    }).catch((error) => {
+        alert("Para deletar ou editar um usuario é necessario antes fazer login.")
+        console.log(error)
+    })
+}
+
+function deleteUser(itemList){
+    const id = itemList.getAttribute("data-id")
+    axios.delete("http://localhost:3000/user/" + id, {headers: {'authorization': localStorage.getItem('token') }}).then(()=>{
+        alert("Usuario Deletado!")
+        location.reload()
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+document.querySelector("#BtnEditUser").addEventListener('click', updateUser)
+
+
 </script>
 </html>

@@ -28,6 +28,8 @@ class SessionController {
 
         const verifyPassword = await bcrypt.compare(password, user.password) //verificando se a senha informada é confere coo o hash do banco de dados
 
+        console.log(verifyPassword)
+
         if(verifyPassword){ //Caso a verificação passe
             const token = jwt.sign({name: user.name, email: user.email}, tokenSecret.token ,{expiresIn: '7d'})
             res.status(200).json({token: token})

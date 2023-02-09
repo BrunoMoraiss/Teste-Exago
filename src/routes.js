@@ -13,7 +13,7 @@ routes.post("/login", SessionController.login)
 //User
 routes.post("/user", UserController.create)
 routes.get("/user", UserController.index)
-routes.put("/user/:id", UserController.update)
-routes.delete("/user/:id", UserController.destroy)
+routes.put("/user/:id", Auth, UserController.update)
+routes.delete("/user/:id", Auth ,UserController.destroy)
 
 module.exports = routes
