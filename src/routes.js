@@ -11,5 +11,6 @@ routes.get("/login", SessionController.index)
 routes.post("/user", UserController.create)
 routes.get("/user", UserController.index)
 routes.put("/user/:id", UserController.update)
+routes.delete("/user/:id", UserController.destroy)
 
 module.exports = routes

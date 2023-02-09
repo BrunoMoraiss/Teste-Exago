@@ -44,7 +44,7 @@ class UserController {
 
         let user = {} //variavel para facilitar a atualização de um usuario
 
-        const userVerification = await User.findOne({ //Verificando se existe um usuario que corresponde ao email passado
+        const userVerification = await User.findOne({ //Verificando se existe um usuario que corresponde ao id passado
             where: {
                 id
             }
@@ -81,7 +81,21 @@ class UserController {
     }
 
     async destroy (req, res){
+        const id = req.params.id //Id do usuario passado através da URL 
 
+        const user = await User.findOne({ //Verificando se existe um usuario que corresponde ao ID passado
+            where:{
+                id
+            }
+        })
+
+        if(user == undefined){ //Caso não seja possivel localizar um usuario 
+            return res.status(404).json({err: "Usuario não encontrado"})
+        }
+
+        await user.destroy()
+
+        res.status(200).json({msg: "Usuario Deletado"})
     }
 
 }
