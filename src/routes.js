@@ -11,6 +11,7 @@ routes.get("/users", SessionController.ViewUsers)
 routes.post("/login", SessionController.login)
 routes.get("/register", SessionController.ViewRegister)
 routes.get("/customers", SessionController.ViewCustomers)
+routes.get("/create/customer", SessionController.ViewCreateCustomer)
 
 
 //User
@@ -20,7 +21,7 @@ routes.put("/user/:id", Auth, UserController.update)
 routes.delete("/user/:id", Auth ,UserController.destroy)
 
 //Customer
-routes.post("/customer", CustomerController.create)
+routes.post("/customer", Auth, CustomerController.create)
 routes.get("/customer", CustomerController.index)
 routes.put("/customer/:id", Auth, CustomerController.update)
 routes.delete("/customer/:id", Auth, CustomerController.destroy)

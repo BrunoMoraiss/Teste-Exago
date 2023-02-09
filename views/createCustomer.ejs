@@ -28,39 +28,79 @@
         </ul>
     </nav>
     <div class="container mt-3">
-        <h1 style="text-align: center;">Cadastro de Usuario</h1>
+        <h1 style="text-align: center;">Cadastro de cliente</h1>
         <hr>
-        <div>
-            <input type="text" name="name" id="name" placeholder="Nome do usuario" class="form-control">
-            <input type="email" name="email" id="email" placeholder="Email do usuario" class="form-control">
-            <input type="text" name="password" id="password" placeholder="Senha do usuario" class="form-control ">
-            <button class="btn btn-success btn-block" id="btnRegister">Registrar Usuario!</button>
+        <div class="card mt-2">
+            <div class="card-body">
+                    <label for="name">Nome:</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Digite o seu nome"><br>
+                    <label for="lastName">Sobrenome:</label>
+                    <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Digite o seu sobrenome"><br>
+                    <label for="gender">Sexo:</label>
+                    <input type="text" class="form-control" name="gender" id="gender" placeholder="Digite o seu sexo"><br>
+                    <label for="birthday">Data de aniversario:</label>
+                    <input type="text" class="form-control" name="birthday" id="birthday" placeholder="Digite a sua data de nascimento. Ex: 09/12/2001"><br>
+                    <label for="nationality">Nacionalidade:</label>
+                    <input type="text" class="form-control" name="nationality" id="nationality" placeholder="Digite a sua nacionalidade"><br>
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Digite o seu email"><br>
+                    <label for="address">Endereço:</label>
+                    <input type="text" class="form-control" name="address" id="address" placeholder="Digite o seu endereço. Ex: Rua joana castellan, 300 (Após a virgula digite o número da residencia)"><br>
+                    <label for="city">Cidade:</label>
+                    <input type="text" class="form-control" name="city" id="city" placeholder="Digite a sua cidade"><br>
+                    <label for="state">Estado:</label>
+                    <input type="text" class="form-control" name="state" id="state" placeholder="Digite o seu estado. Ex: São paulo, Rio de janeiro, Santos"><br>
+                    <label for="phone">Telefone:</label>
+                    <input type="number" class="form-control" name="phone" id="phone" placeholder="Digite seu número. Ex: 11978831886 (Primeiro o DDD após isso seu número)"><br>
+                    <button id="BtnCreateCustomer" class="btn btn-success">Criar</button>
+            </div>
         </div>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    function registerUser(){
+    function createCustomer(){
         const name = document.getElementById("name")
+        const lastName = document.getElementById("lastName")
+        const gender = document.getElementById("gender")
+        const birthday = document.getElementById("birthday")
+        const nationality = document.getElementById("nationality")
+        const address = document.getElementById("address")
+        const city = document.getElementById("city")
+        const state = document.getElementById("state")
+        const phone = document.getElementById("phone")
         const email = document.getElementById("email")
-        const password = document.getElementById("password")
 
-        const user = {
-            name: name.value, 
-            email: email.value,
-            password: password.value
-        }
+        const createCustomer = {
+        name: name.value, 
+        lastName: lastName.value,
+        gender: gender.value,
+        birthday: birthday.value,
+        nationality: nationality.value,
+        email: email.value,
+        address: address.value,
+        city: city.value,
+        state: state.value,
+        phone: phone.value
+    }
 
-        axios.post("http://localhost:3000/user", user).then(response => {
-            alert("Usuario cadastrado!")
-            location.href = "http://localhost:3000/users"
+    console.log(createCustomer)
+
+        axios.post("http://localhost:3000/customer", createCustomer, {headers: {'authorization': localStorage.getItem('token') }}).then(response => {
+            alert("Cliente cadastrado!")
+            location.href = "http://localhost:3000/customers"
         }).catch(err => {
-            alert(err.response.data.err)
+            if(err.response.status == 406){
+                alert("Para criar um cliente é necessario estar cadastrado e logado.")
+                location.href = "http://localhost:3000/"
+            }else{
+                alert("Verifique as informações passadas")
+            }
             console.log(err)
         })
     }
 
-    document.getElementById("btnRegister").addEventListener('click', registerUser)
+    document.getElementById("BtnCreateCustomer").addEventListener('click', createCustomer)
 </script>
 </html>

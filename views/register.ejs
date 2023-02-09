@@ -53,8 +53,8 @@
         }
 
         axios.post("http://localhost:3000/user", user).then(response => {
-            alert("Usuario cadastrado!")
-            location.href = "http://localhost:3000/users"
+            alert("Usuario cadastrado! Agora é necessario fazer login")
+            location.href = "http://localhost:3000/"
         }).catch(err => {
             alert(err.response.data.err)
             console.log(err)
