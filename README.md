@@ -2,6 +2,7 @@
 ## Front-End
 - EJS - Utilizado como view engine para redenrização das paginas.
 - Bootstrap - Para estilização das paginas
+- Axios - Para fazer as requisições ao back-end.
 ## Back-End
 - Framework Express
 - Sequelize - Utilizado para conexao e comunicação ao banco de dados.
